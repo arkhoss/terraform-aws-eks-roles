@@ -28,8 +28,8 @@ module "kubernetes-roles" {
 ```
 ## Conditional creation
 
-### Need more roles?
-Sometimes you need to have a way to create other roles, you can add them using the variables and including the yml files in `cluster-roles` and `cluster-roles-binding` folders. Keep in mind the variables `cluster-role-qty` and `cluster-role-binding-qty` must be increased or reduced according.
+### Need more roles? <!--- TODO: Add here instructions to do multiple roles  -->
+Sometimes you need to have a way to create other roles, you can add them using the variables and including the yml files in `cluster-roles` and `cluster-roles-binding` folders. Keep in mind the variables `cluster-role-qty` and `cluster-role-binding-qty` must be increased or reduced according. And all the resources, locals and outputs for each one.
 
 ### dry-run for aws-auth.yml
 The variable `overwrite-aws-auth` will allow you to generate the aws-auth.yml file without apply it over, so you can review it, edit or whatever you need from it. By default, this variable is false.
@@ -130,5 +130,8 @@ SOFTWARE.
 | iam\_policy\_KubernetesAdminPolicy | KubernetesAdminPolicy ARN |
 | iam\_policy\_KubernetesOpsPolicy | KubernetesOpsPolicy ARN |
 | iam\_policy\_KubernetesViewOnlyPolicy | KubernetesViewOnlyPolicy ARN |
+| iam\_role\_KubernetesAdminRole | KubernetesAdminRole ARN |
+| iam\_role\_KubernetesOpsRole | KubernetesOpsRole ARN |
+| iam\_role\_KubernetesViewOnlyRole | KubernetesViewOnlyRole ARN |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
