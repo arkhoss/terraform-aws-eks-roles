@@ -1,17 +1,19 @@
 # terraform-aws-eks-roles
 
-A terraform module to create all necessary resources to create Admin, Operations and ViewOnly AWS policy/roles and its respective ClusterRoles, ClusterRoleBindings and its ConfigMap aws-auth. Inspired by and adapted from [this doc](https://www.terraform.io/docs/providers/aws/guides/eks-getting-started.html) and its [source code](https://github.com/terraform-providers/terraform-provider-aws/tree/master/examples/eks-getting-started).
+A terraform module to create all necessary resources for Admin, Operations and ViewOnly AWS policies/roles and its respective ClusterRoles, ClusterRoleBindings and its ConfigMap aws-auth. Inspired by and adapted from [this doc](https://www.terraform.io/docs/providers/aws/guides/eks-getting-started.html) and its [source code](https://github.com/terraform-providers/terraform-provider-aws/tree/master/examples/eks-getting-started).
 Read the [AWS docs on EKS to get connected to the k8s dashboard](https://docs.aws.amazon.com/eks/latest/userguide/dashboard-tutorial.html).
 
 ## Assumptions
 
 * You have an EKS cluster in an AWS Account
-* You have an AWS CLI installation with access as system:master to the EKS Cluster
+* You have an AWS CLI with access to AWS Account were EKS cluster exist
 * You have an AWS user with sufficient permissions to create IAM policies and IAM roles
+* You have a kubeconfig file with access as system:master to the EKS Cluster
+
 
 ## Usage example
 
-A full example is contained in the [examples/basic directory](https://linkhere!).
+A full example is contained in the [examples/basic directory](https://gitlab.com/arkhoss/terraform-aws-eks-roles/-/tree/master/examples).
 
 ```hcl
 
@@ -29,10 +31,10 @@ module "kubernetes-roles" {
 ## Conditional creation
 
 ### Need more roles? <!--- TODO: Add here instructions to do multiple roles  -->
-Sometimes you need to have a way to create other roles, you can add them using the variables and including the yml files in `cluster-roles` and `cluster-roles-binding` folders. Keep in mind the variables `cluster-role-qty` and `cluster-role-binding-qty` must be increased or reduced according. And all the resources, locals and outputs for each one.
+Sometimes you need to have a way to create other roles, you can add them using the variables, also including the yml files in `cluster-roles` and `cluster-roles-binding` folders. Keep in mind the variables `cluster-role-qty` and `cluster-role-binding-qty` must be increased or reduced according. And final you need to crate the resources, locals and outputs for each new role.
 
 ### dry-run for aws-auth.yml
-The variable `overwrite-aws-auth` will allow you to generate the aws-auth.yml file without apply it over, so you can review it, edit or whatever you need from it. By default, this variable is false.
+The variable `overwrite-aws-auth` will allow you to generate the aws-auth.yml file without apply, so you can review it, edit or whatever you need from it. By default, this variable is false.
 
 ```hcl
 
@@ -59,18 +61,19 @@ And install `terraform-docs` with `go get github.com/segmentio/terraform-docs` o
 
 ## Contributing
 
-Report issues/questions/feature requests on in the [issues](https://linkhere!) section.
+Report issues/questions/feature requests on in the [issues](https://gitlab.com/arkhoss/terraform-aws-eks-roles/-/issues) section.
 
-Full contributing [guidelines are covered here](https:///CONTRIBUTING.md).
+Full contributing [guidelines are covered here](https://gitlab.com/arkhoss/terraform-aws-eks-roles/-/blob/master/CONTRIBUTING.md).
 
 ## Change log
 
-- The [changelog](https://github.com/terraform-aws-modules/terraform-aws-eks/tree/master/CHANGELOG.md) captures all important release notes from v11.0.0
-- For older release notes, refer to [changelog.pre-v11.0.0.md](https://github.com/terraform-aws-modules/terraform-aws-eks/tree/master/CHANGELOG.pre-v11.0.0.md)
+The [changelog](https://gitlab.com/arkhoss/terraform-aws-eks-roles/-/blob/master/CHANGELOG.md) captures all important release notes from v1.0.0
 
 ## Authors
 
-Created by [David Caballero](https://gitlab.com/arkhoss) - d@dcaballero.net
+Created by:
+
+- David Caballero [Gitlab](https://gitlab.com/arkhoss) | [Github](https://github.com/arkhoss) | d@dcaballero.net
 
 ## License
 
