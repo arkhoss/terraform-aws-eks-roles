@@ -3,18 +3,17 @@ data "aws_caller_identity" "current" {}
 resource "local_file" "aws-auth" {
   content = templatefile("${path.module}/cluster-configmap/aws-auth.tmpl", {
     account_id         = data.aws_caller_identity.current.account_id,
-    cluster-name       = var.cluster-name,
-    role_for_admins    = join("-", [local.RoleForAdmins, var.cluster-name]),
-    role_for_ops       = join("-", [local.RoleForOps, var.cluster-name]),
-    role_for_viewonly  = join("-", [local.RoleForViewOnly, var.cluster-name])
-    master_user        = var.master-user
-    cluster_nodes_role = var.cluster-nodes-role
+    role_for_admins    = join("-", [local.RoleForAdmins, var.cluster_name]),
+    role_for_ops       = join("-", [local.RoleForOps, var.cluster_name]),
+    role_for_viewonly  = join("-", [local.RoleForViewOnly, var.cluster_name])
+    master_user        = var.master_user
+    cluster_nodes_role = var.cluster_nodes_role
   })
   filename = "${path.cwd}/aws-auth.yml"
 }
 
 resource "aws_iam_policy" "KubernetesAdminPolicy" {
-  name        = join("-", [local.AdminPolicy, var.cluster-name])
+  name        = join("-", [local.AdminPolicy, var.cluster_name])
   path        = "/"
   description = "KubernetesAdmin policy to access kubernetes cluster"
 
@@ -25,7 +24,7 @@ resource "aws_iam_policy" "KubernetesAdminPolicy" {
         {
             "Effect": "Allow",
             "Action": "sts:AssumeRole",
-            "Resource": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${join("-", [local.RoleForAdmins, var.cluster-name])}"
+            "Resource": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${join("-", [local.RoleForAdmins, var.cluster_name])}"
         }
     ]
 }
@@ -33,7 +32,7 @@ EOF
 }
 
 resource "aws_iam_policy" "KubernetesOpsPolicy" {
-  name        = join("-", [local.OpsPolicy, var.cluster-name])
+  name        = join("-", [local.OpsPolicy, var.cluster_name])
   path        = "/"
   description = "Kubernetes operations policy to access kubernetes cluster"
 
@@ -44,7 +43,7 @@ resource "aws_iam_policy" "KubernetesOpsPolicy" {
         {
             "Effect": "Allow",
             "Action": "sts:AssumeRole",
-            "Resource": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${join("-", [local.RoleForOps, var.cluster-name])}"
+            "Resource": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${join("-", [local.RoleForOps, var.cluster_name])}"
         }
     ]
 }
@@ -52,7 +51,7 @@ EOF
 }
 
 resource "aws_iam_policy" "KubernetesViewOnlyPolicy" {
-  name        = join("-", [local.ViewOnlyPolicy, var.cluster-name])
+  name        = join("-", [local.ViewOnlyPolicy, var.cluster_name])
   path        = "/"
   description = "Kubernetes view only policy to access kubernetes cluster"
 
@@ -63,7 +62,7 @@ resource "aws_iam_policy" "KubernetesViewOnlyPolicy" {
         {
             "Effect": "Allow",
             "Action": "sts:AssumeRole",
-            "Resource": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${join("-", [local.RoleForViewOnly, var.cluster-name])}"
+            "Resource": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${join("-", [local.RoleForViewOnly, var.cluster_name])}"
         }
     ]
 }
@@ -71,7 +70,7 @@ EOF
 }
 
 resource "aws_iam_role" "KubernetesAdminRole" {
-  name                  = join("-", [local.RoleForAdmins, var.cluster-name])
+  name                  = join("-", [local.RoleForAdmins, var.cluster_name])
   path                  = "/"
   description           = "Provides access to kubernetes admin users."
   force_detach_policies = false
@@ -98,7 +97,7 @@ POLICY
 }
 
 resource "aws_iam_role" "KubernetesOpsRole" {
-  name                  = join("-", [local.RoleForOps, var.cluster-name])
+  name                  = join("-", [local.RoleForOps, var.cluster_name])
   path                  = "/"
   description           = "Provides access to kubernetes operations users."
   force_detach_policies = false
@@ -126,7 +125,7 @@ POLICY
 }
 
 resource "aws_iam_role" "KubernetesViewOnlyRole" {
-  name                  = join("-", [local.RoleForViewOnly, var.cluster-name])
+  name                  = join("-", [local.RoleForViewOnly, var.cluster_name])
   path                  = "/"
   description           = "Provides access to kubernetes view only users."
   force_detach_policies = false
@@ -185,15 +184,15 @@ resource "aws_iam_role_policy_attachment" "KubernetesViewOnlyRole" {
 
 resource "null_resource" "set-local-kube-context" {
   provisioner "local-exec" {
-    command     = "kubectl config use-context ${var.local-kube-context}"
+    command     = "kubectl config use-context ${var.local_kube_context}"
     interpreter = ["sh", "-c"]
   }
 }
 
 resource "null_resource" "setup-cluster-roles" {
-  count = var.cluster-role-qty
+  count = var.cluster_role_qty
   provisioner "local-exec" {
-    command     = "kubectl apply -f ${path.module}/cluster-roles/${var.cluster-roles[count.index]}.yml"
+    command     = "kubectl apply -f ${path.module}/cluster-roles/${var.cluster_roles[count.index]}.yml"
     interpreter = ["sh", "-c"]
   }
 
@@ -203,9 +202,9 @@ resource "null_resource" "setup-cluster-roles" {
 }
 
 resource "null_resource" "setup-cluster-binding" {
-  count = var.cluster-role-binding-qty
+  count = var.cluster_role_binding_qty
   provisioner "local-exec" {
-    command     = "kubectl apply -f ${path.module}/cluster-roles-binding/${var.cluster-roles-binding[count.index]}.yml"
+    command     = "kubectl apply -f ${path.module}/cluster-roles-binding/${var.cluster_roles_binding[count.index]}.yml"
     interpreter = ["sh", "-c"]
   }
 
@@ -216,7 +215,7 @@ resource "null_resource" "setup-cluster-binding" {
 
 resource "null_resource" "setup-config-map" {
 
-  count = var.overwrite-aws-auth ? 1 : 0
+  count = var.overwrite_aws_auth ? 1 : 0
 
   provisioner "local-exec" {
     command     = "kubectl apply -f ${path.cwd}/aws-auth.yml"
@@ -228,4 +227,3 @@ resource "null_resource" "setup-config-map" {
     local_file.aws-auth
   ]
 }
-

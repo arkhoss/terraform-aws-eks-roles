@@ -69,18 +69,17 @@ provider "aws" {
 module "kubernetes-roles" {
   source = "../../../modules/terraform-aws-eks-roles"
 
-  resources-prefix         = var.resources-prefix
-  cluster-name             = var.cluster-name
-  master-user              = var.master-user
-  policy-names             = var.policy-names
-  roles-names              = var.roles-names
-  cluster-role-qty         = var.cluster-role-qty
-  cluster-roles            = var.cluster-roles
-  cluster-role-binding-qty = var.cluster-role-binding-qty
-  cluster-roles-binding    = var.cluster-roles-binding
-  local-kube-context       = var.local-kube-context
-  overwrite-aws-auth       = var.overwrite-aws-auth
-  cluster-nodes-role       = var.cluster-nodes-role
+  resources_prefix         = var.resources-prefix
+  cluster_name             = var.cluster-name
+  master_user              = var.master-user
+  policy_names             = var.policy-names
+  roles_names              = var.roles-names
+  cluster_role_qty         = var.cluster-role-qty
+  cluster_roles            = var.cluster-roles
+  cluster_role_binding_qty = var.cluster-role-binding-qty
+  cluster_roles_binding    = var.cluster-roles-binding
+  local_kube_context       = var.local-kube-context
+  overwrite_aws_auth       = var.overwrite-aws-auth
+  cluster_nodes_role       = var.cluster-nodes-role
   tags                     = var.tags
 }
-
