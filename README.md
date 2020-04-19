@@ -20,10 +20,10 @@ A full example is contained in the [examples/basic directory](https://gitlab.com
 module "kubernetes-roles" {
     source             = "./terraform-aws-eks-roles"
 
-    cluster-name             = var.cluster-name
-    master-user              = var.master-user
-    local-kube-context       = var.local-kube-context
-    cluster-nodes-role       = var.cluster-nodes-role
+    cluster_name             = var.cluster-name
+    master_user              = var.master-user
+    local_kube_context       = var.local-kube-context
+    cluster_nodes_role       = var.cluster-nodes-role
     tags                     = var.tags
 }
 
