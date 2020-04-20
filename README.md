@@ -31,14 +31,14 @@ module "kubernetes-roles" {
 ## Conditional creation
 
 ### Need more roles? <!--- TODO: Add here instructions to do multiple roles  -->
-Sometimes you need to have a way to create other roles, you can add them using the variables, also including the yml files in `cluster-roles` and `cluster-roles-binding` folders. Keep in mind the variables `cluster-role-qty` and `cluster-role-binding-qty` must be increased or reduced according. And final you need to crate the resources, locals and outputs for each new role.
+Sometimes you need to have a way to create other roles, you can add them using the variables, also including the yml files in `cluster-roles` and `cluster-roles-binding` folders. Keep in mind the variables `cluster_role_qty` and `cluster_role_binding_qty` must be increased or reduced according. And final you need to crate the resources, locals and outputs for each new role.
 
 ### dry-run for aws-auth.yml
-The variable `overwrite-aws-auth` will allow you to generate the aws-auth.yml file without apply, so you can review it, edit or whatever you need from it. By default, this variable is false.
+The variable `overwrite_aws_auth` will allow you to generate the aws-auth.yml file without apply, so you can review it, edit or whatever you need from it. By default, this variable is false.
 
 ```hcl
 
-variable "overwrite-aws-auth" {
+variable "overwrite_aws_auth" {
   type        = bool
   default     = false
   description = "WARNING!!! If true it will override the aws-auth ConfigMap of your cluster"
@@ -100,6 +100,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+## Requirements
+
+| Name | Version |
+|------|---------|
+| terraform | >= 0.12.23 |
+| aws | >= 2.54.0 |
+| local | >= 1.4.0 |
+| null | >= 2.1.2 |
+
 ## Providers
 
 | Name | Version |
@@ -111,19 +120,19 @@ SOFTWARE.
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:-----:|
-| cluster-name | EKS cluster name in AWS | `string` | n/a | yes |
-| cluster-nodes-role | IAM Role ARN used by EKS Cluster Nodes, a.k.a Cluster IAM Role ARN | `string` | n/a | yes |
-| cluster-role-binding-qty | amount of ClusterRolesBinding to be provisioned, it helps with local iterations | `number` | `3` | no |
-| cluster-role-qty | amount of ClusterRoles to be provisioned, it helps with local iterations | `number` | `3` | no |
-| cluster-roles | ClusterRoles to be provisioned in EKS | `list` | <pre>[<br>  "cluster-role-cluster-admin",<br>  "cluster-role-cluster-operations",<br>  "cluster-role-cluster-viewonly"<br>]</pre> | no |
-| cluster-roles-binding | ClusterRolesBinding to be provisioned in EKS | `list` | <pre>[<br>  "cluster-role-binding-cluster-admin",<br>  "cluster-role-binding-cluster-operations",<br>  "cluster-role-binding-cluster-viewonly"<br>]</pre> | no |
-| local-kube-context | Local kubectl context to be used to provision | `string` | n/a | yes |
-| master-user | Master cluster user, in case aws-auth roles don't work | `string` | n/a | yes |
-| overwrite-aws-auth | WARNING!!! If true it will override the aws-auth ConfigMap of your cluster | `bool` | `false` | no |
-| policy-names | IAM policy names | `list` | <pre>[<br>  "EKS-AdminPolicy",<br>  "EKS-OpsPolicy",<br>  "EKS-ViewOnlyPolicy"<br>]</pre> | no |
-| resources-prefix | This variable will be a prefix for each IAM Role and Policy | `string` | `""` | no |
-| roles-names | IAM role names | `list` | <pre>[<br>  "EKS-AdminsRole",<br>  "EKS-OpsRole",<br>  "EKS-ViewOnlyRole"<br>]</pre> | no |
+|------|-------------|------|---------|:--------:|
+| cluster\_name | EKS cluster name in AWS | `string` | n/a | yes |
+| cluster\_nodes\_role | IAM Role ARN used by EKS Cluster Nodes, a.k.a Cluster IAM Role ARN | `string` | n/a | yes |
+| cluster\_role\_binding\_qty | amount of ClusterRolesBinding to be provisioned, it helps with local iterations | `number` | `3` | no |
+| cluster\_role\_qty | amount of ClusterRoles to be provisioned, it helps with local iterations | `number` | `3` | no |
+| cluster\_roles | ClusterRoles to be provisioned in EKS | `list` | <pre>[<br>  "cluster-role-cluster-admin",<br>  "cluster-role-cluster-operations",<br>  "cluster-role-cluster-viewonly"<br>]</pre> | no |
+| cluster\_roles\_binding | ClusterRolesBinding to be provisioned in EKS | `list` | <pre>[<br>  "cluster-role-binding-cluster-admin",<br>  "cluster-role-binding-cluster-operations",<br>  "cluster-role-binding-cluster-viewonly"<br>]</pre> | no |
+| local\_kube\_context | Local kubectl context to be used to provision | `string` | n/a | yes |
+| master\_user | Master cluster user, in case aws-auth roles don't work | `string` | n/a | yes |
+| overwrite\_aws\_auth | WARNING!!! If true it will override the aws-auth ConfigMap of your cluster | `bool` | `false` | no |
+| policy\_names | IAM policy names | `list` | <pre>[<br>  "EKS-AdminPolicy",<br>  "EKS-OpsPolicy",<br>  "EKS-ViewOnlyPolicy"<br>]</pre> | no |
+| resources\_prefix | This variable will be a prefix for each IAM Role and Policy | `string` | `""` | no |
+| roles\_names | IAM role names | `list` | <pre>[<br>  "EKS-AdminsRole",<br>  "EKS-OpsRole",<br>  "EKS-ViewOnlyRole"<br>]</pre> | no |
 | tags | n/a | `map(string)` | <pre>{<br>  "Name": ""<br>}</pre> | no |
 
 ## Outputs
