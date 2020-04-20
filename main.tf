@@ -23,6 +23,14 @@ resource "aws_iam_policy" "KubernetesAdminPolicy" {
     "Statement": [
         {
             "Effect": "Allow",
+            "Action": [
+              "eks:DescribeCluster",
+              "eks:ListClusters"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
             "Action": "sts:AssumeRole",
             "Resource": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${join("-", [local.RoleForAdmins, var.cluster_name])}"
         }
@@ -42,6 +50,14 @@ resource "aws_iam_policy" "KubernetesOpsPolicy" {
     "Statement": [
         {
             "Effect": "Allow",
+            "Action": [
+              "eks:DescribeCluster",
+              "eks:ListClusters"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
             "Action": "sts:AssumeRole",
             "Resource": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${join("-", [local.RoleForOps, var.cluster_name])}"
         }
@@ -59,6 +75,14 @@ resource "aws_iam_policy" "KubernetesViewOnlyPolicy" {
 {
     "Version": "2012-10-17",
     "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+              "eks:DescribeCluster",
+              "eks:ListClusters"
+            ],
+            "Resource": "*"
+        },
         {
             "Effect": "Allow",
             "Action": "sts:AssumeRole",
