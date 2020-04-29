@@ -9,6 +9,7 @@ Read the [AWS docs on EKS to get connected to the k8s dashboard](https://docs.aw
 * You have an AWS CLI with access to AWS Account were EKS cluster exist
 * You have an AWS user with sufficient permissions to create IAM policies and IAM roles
 * You have a kubeconfig file with access as system:master to the EKS Cluster
+* You have kubectl installed and configured properly
 
 
 ## Usage example
@@ -45,6 +46,17 @@ variable "overwrite_aws_auth" {
 }
 
 ```
+
+### Resources Names
+
+Name of the resources in AWS will follow a predefined pattern, like:
+
+```
+
+prefix + Role name or Policy name + Cluster name
+
+```
+
 
 ## Other documentation
 
